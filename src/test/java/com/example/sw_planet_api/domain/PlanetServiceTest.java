@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,6 +76,25 @@ public class PlanetServiceTest {
     public void getPlanet_ByUnexistingId_ReturnsEmpty() {
         when(planetRepository.findById(1L)).thenReturn(Optional.empty());
         Optional<Planet> sut = planetService.get(1L);
+
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void getPlanet_ByExistingName_returnsPlanet(){
+        when(planetRepository.findByName(PLANET.getName())).thenReturn(Optional.of(PLANET));
+
+        Optional<Planet> sut = planetService.getByName(PLANET.getName());
+        assertThat(sut).isNotEmpty();
+        assertThat(sut.get()).isEqualTo(PLANET);
+    }
+
+
+    @Test
+    public void getPlanet_ByUnexistingName_ReturnsEmpty(){
+        final String name = "nome inexistente";
+        when(planetRepository.findByName(name)).thenReturn(Optional.empty());
+        Optional<Planet> sut = planetService.getByName(name);
 
         assertThat(sut).isEmpty();
     }
