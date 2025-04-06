@@ -2,6 +2,7 @@ package com.example.sw_planet_api.web.Controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class PlanetController {
 
 
     @PostMapping
-    public ResponseEntity<Planet> create(@RequestBody Planet planet){
+    public ResponseEntity<Planet> create(@RequestBody @Valid Planet planet){
         Planet planetCreate = planetService.create(planet);
         return ResponseEntity.status(HttpStatus.CREATED).body(planetCreate);
     }

@@ -3,6 +3,7 @@ package com.example.sw_planet_api.web;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import com.example.sw_planet_api.domain.Planet;
 import com.example.sw_planet_api.domain.PlanetService;
 import com.example.sw_planet_api.web.Controller.PlanetController;
 import static com.example.common.PlanetConstants.PLANET;
@@ -38,6 +39,22 @@ public class PlanetControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isCreated())
                         .andExpect(jsonPath("$").value(PLANET));
+    }
+
+    @Test
+    public void createPlanet_WithInvalidData_ReturnsBadRequest() throws Exception {
+        Planet emptyPlanet = new Planet();
+        Planet invalidPlanet = new Planet("", "", "");
+
+        mockMvc
+                .perform(
+                        post("/planets").content(objectMapper.writeValueAsString(emptyPlanet))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
+
+        mockMvc.perform(post("/planets").content(objectMapper.writeValueAsString(invalidPlanet))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
     }
 
 }
