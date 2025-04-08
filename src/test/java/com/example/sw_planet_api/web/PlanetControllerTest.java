@@ -1,10 +1,15 @@
 package com.example.sw_planet_api.web;
 
+import static java.lang.reflect.Array.get;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import com.example.sw_planet_api.domain.Planet;
+import com.example.sw_planet_api.domain.PlanetRepository;
 import com.example.sw_planet_api.domain.PlanetService;
 import com.example.sw_planet_api.web.Controller.PlanetController;
 import static com.example.common.PlanetConstants.PLANET;
@@ -21,6 +26,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Optional;
 
 @WebMvcTest(PlanetController.class)
 public class PlanetControllerTest {
@@ -33,6 +42,7 @@ public class PlanetControllerTest {
 
     @MockitoBean
     private PlanetService planetService;
+
 
     @Test
     public void createPlanet_WithValidData_returnCreated() throws Exception {
@@ -66,6 +76,20 @@ public class PlanetControllerTest {
         mockMvc.perform(post("/planets").content(objectMapper.writeValueAsString(PLANET))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void getPlanet_ByExistingId_ReturnsPlanet() throws Exception{
+        when(planetService.get(1L)).thenReturn(Optional.of(PLANET));
+        mockMvc.perform(get("/planets/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(PLANET));
+    }
+    @Test
+    public void getPlanet_ByUnexistingId_ReturnsNotFound() throws Exception{
+       mockMvc.perform(get("/planets/1"))
+                .andExpect(status().isNotFound());
+
     }
 
 }

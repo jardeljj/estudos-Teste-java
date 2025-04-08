@@ -45,4 +45,14 @@ public class PlanetRepositoryTest {
         planet.setId(null);
         assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    public void getPlanet_ByExistingId_ReturnsPlanet() throws Exception{
+
+    }
+    @Test
+    public void getPlanet_ByUnexistingId_ReturnsNotFound() throws Exception{
+
+    }
+
 }
