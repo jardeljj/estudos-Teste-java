@@ -95,7 +95,7 @@ public class PlanetServiceTest {
 
 
     @Test
-    public void getPlanet_ByUnexistingName_ReturnsEmpty(){
+    public void getPlanet_ByUnExistingName_ReturnsEmpty(){
         final String name = "nome inexistente";
         when(planetRepository.findByName(name)).thenReturn(Optional.empty());
         Optional<Planet> sut = planetService.getByName(name);

@@ -43,6 +43,9 @@ public class PlanetControllerTest {
     @MockitoBean
     private PlanetService planetService;
 
+    @MockitoBean
+    private PlanetRepository planetRepository;
+
 
     @Test
     public void createPlanet_WithValidData_returnCreated() throws Exception {
@@ -90,6 +93,22 @@ public class PlanetControllerTest {
        mockMvc.perform(get("/planets/1"))
                 .andExpect(status().isNotFound());
 
+    }
+
+    @Test
+    public void getPlanet_ByExistingName_ReturnsPlanet() throws Exception{
+       when(planetService.getByName(PLANET.getName())).thenReturn(Optional.of(PLANET));
+
+        mockMvc.perform(
+                    get("/planets/name/" + PLANET.getName()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(PLANET));
+    }
+
+    @Test
+    public void getPlanet_ByUnExistingName_ReturnsNotFound() throws Exception{
+        mockMvc.perform(get("/planets/name/1"))
+                .andExpect(status().isNotFound());
     }
 
 }
