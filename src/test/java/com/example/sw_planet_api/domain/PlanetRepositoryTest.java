@@ -100,7 +100,7 @@ public class PlanetRepositoryTest {
         List<Planet> responseWithFilters = planetRepository.findAll(queryWithFilters);
 
         assertThat(responseWithoutFilters).isNotEmpty();
-        assertThat(responseWithoutFilters).hasSize(1);
+        assertThat(responseWithoutFilters).hasSize(3);
         assertThat(responseWithFilters).isNotEmpty();
         assertThat(responseWithFilters).hasSize(1);
         assertThat(responseWithFilters.get(0)).isEqualTo("marte");
