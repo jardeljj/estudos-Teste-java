@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Example;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -92,12 +94,26 @@ public class PlanetRepositoryTest {
 
     @Test
     public void listPlanets_ReturnsFilteredPlanets() throws Exception{
+        Example<Planet> queryWithoutFilters = QueryBuilder.makeQuery(new Planet());
+        Example<Planet> queryWithFilters = QueryBuilder.makeQuery(new Planet(PLANET.getClimate(), PLANET.getTerrain()));
 
+        List<Planet> responseWithoutFilters = planetRepository.findAll(queryWithoutFilters);
+        List<Planet> responseWithFilters = planetRepository.findAll(queryWithFilters);
+
+        assertThat(responseWithoutFilters).isNotEmpty();
+        assertThat(responseWithoutFilters).hasSize(3);
+        assertThat(responseWithFilters).isNotEmpty();
+        assertThat(responseWithFilters).hasSize(1);
+        assertThat(responseWithFilters.get(0)).isEqualTo(PLANET);
     }
 
     @Test
     public void listPlanets_ReturnsNoPlanets() throws Exception{
+        Example<Planet> query = QueryBuilder.makeQuery(new Planet());
 
+        List<Planet> response = planetRepository.findAll(query);
+
+        assertThat(response).isEmpty();
     }
 
 }
