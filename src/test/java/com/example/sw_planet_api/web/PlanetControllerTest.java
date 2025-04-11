@@ -2,6 +2,7 @@ package com.example.sw_planet_api.web;
 
 import static java.lang.reflect.Array.get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -29,6 +30,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @WebMvcTest(PlanetController.class)
@@ -109,6 +112,37 @@ public class PlanetControllerTest {
     public void getPlanet_ByUnExistingName_ReturnsNotFound() throws Exception{
         mockMvc.perform(get("/planets/name/1"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void listPlanets_ReturnsFilteredPlanets() throws Exception {
+        //when(planetService.listPlanets(PLANET.getTerrain(), PLANET.getClimate()));
+        when(planetService.listPlanets(PLANET.getTerrain(), PLANET.getClimate())).thenReturn(List.of(PLANET));
+
+        mockMvc
+                .perform(
+                        get("/planets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+
+        mockMvc
+                .perform(
+                        get("/planets?" + String.format("terrain=%s&climate=%s", PLANET.getTerrain(), PLANET.getClimate())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0]").value(PLANET));
+
+    }
+
+    @Test
+    public void listPlanets_ReturnsNoPlanets() throws Exception {
+        when(planetService.listPlanets(null, null)).thenReturn(Collections.emptyList());
+
+        mockMvc
+                .perform(
+                        get("/planets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
 }

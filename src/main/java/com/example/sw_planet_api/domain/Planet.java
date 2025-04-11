@@ -32,10 +32,9 @@ public class Planet {
         this.terrain = terrain;
     }
 
-
-    public Planet(String climate2, String terrain2) {
-        //TODO Auto-generated constructor stub
+    public Planet(String climate, String terrain) {
     }
+
 
     public Long getId() {
         return id;
