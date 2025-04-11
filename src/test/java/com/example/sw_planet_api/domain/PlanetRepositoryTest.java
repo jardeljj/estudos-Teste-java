@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import static com.example.common.PlanetConstants.PLANET;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,9 +27,6 @@ public class PlanetRepositoryTest {
 
     @Autowired
     private PlanetRepository planetRepository;
-
-    @Autowired
-    private PlanetService planetService;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -101,10 +100,10 @@ public class PlanetRepositoryTest {
         List<Planet> responseWithFilters = planetRepository.findAll(queryWithFilters);
 
         assertThat(responseWithoutFilters).isNotEmpty();
-        assertThat(responseWithoutFilters).hasSize(3);
+        assertThat(responseWithoutFilters).hasSize(1);
         assertThat(responseWithFilters).isNotEmpty();
         assertThat(responseWithFilters).hasSize(1);
-        assertThat(responseWithFilters.get(0)).isEqualTo(PLANET);
+        assertThat(responseWithFilters.get(0)).isEqualTo("marte");
     }
 
     @Test
