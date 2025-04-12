@@ -1,7 +1,7 @@
 package com.example.sw_planet_api.domain;
 
-import static com.example.common.PlanetConstants.PLANET;
-import static com.example.common.PlanetConstants.INVALID_PLANET;
+import static com.example.sw_planet_api.common.PlanetConstants.PLANET;
+import static com.example.sw_planet_api.common.PlanetConstants.INVALID_PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -24,10 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @ExtendWith(MockitoExtension.class)
 // @SpringBootTest(classes = PlanetService.class)

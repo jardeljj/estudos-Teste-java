@@ -1,4 +1,4 @@
-package com.example.common;
+package com.example.sw_planet_api.common;
 
 import com.example.sw_planet_api.domain.Planet;
 
