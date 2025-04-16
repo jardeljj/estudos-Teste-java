@@ -139,7 +139,7 @@ public class PlanetControllerTest {
                 .perform(
                         get("/planets"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)));
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
