@@ -24,6 +24,7 @@ Este repositório contém estudos sobre testes automatizados aplicados a uma API
 5. Testes subcutâneos com o Spring Boot
 6. Separação dos testes em fases
 7. Testes/análise de cobertura com o Jacoco
+8. Testes mutantes com o Pitest
 
 ## 🚧 Em construção...
 
