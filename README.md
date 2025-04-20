@@ -26,6 +26,8 @@ Este repositório contém estudos sobre testes automatizados aplicados a uma API
 7. Testes/análise de cobertura com o Jacoco
 8. Testes mutantes com o Pitest
 
+Obs: Utilizado o Postman para as primeiras inserções e pesquisas antes do inicio dos testes. 
+
 ## ✅ Finalizado...
 
 #### JardelDev
